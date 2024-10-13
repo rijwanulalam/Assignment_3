@@ -58,4 +58,17 @@ class Player:
             self.rect.y += self.speed
             self.direction = 'down_right'
 
-    
+    def stop(self):
+        pass
+
+    def stop_left(self):
+        pass
+
+    def stop_right(self):
+        pass
+
+    def stop_up(self):
+        pass
+
+    def stop_down(self):
+        pass
