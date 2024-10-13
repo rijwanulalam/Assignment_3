@@ -4,59 +4,36 @@ import pygame
 import random
 
 from controls import move_player, move_player_with_joystick
-from classes.constants import WIDTH, HEIGHT, FPS, SHOOT_DELAY
-from functions import show_game_over, music_background
+# from classes.constants import WIDTH, HEIGHT, FPS, SHOOT_DELAY
+# from functions import show_game_over, music_background
 from menu import show_menu
 
 from classes.player import Player
-from classes.bullets import Bullet
-from classes.refill import BulletRefill, HealthRefill, DoubleRefill, ExtraScore
-from classes.meteors import Meteors, Meteors2, BlackHole
-from classes.explosions import Explosion, Explosion2
+# from classes.bullets import Bullet
+# from classes.refill import BulletRefill, HealthRefill, DoubleRefill, ExtraScore
+# from classes.meteors import Meteors, Meteors2, BlackHole
+# from classes.explosions import Explosion, Explosion2
 from classes.enemies import Enemy1, Enemy2
-from classes.bosses import Boss1, Boss2, Boss3
+# from classes.bosses import Boss1, Boss2, Boss3
 
 
 pygame.init()
-music_background()
+# music_background()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 surface = pygame.Surface((WIDTH, HEIGHT))
 pygame.display.set_caption("Space Craft")
 clock = pygame.time.Clock()
 
 
-explosions = pygame.sprite.Group()
-explosions2 = pygame.sprite.Group()
+
 bullets = pygame.sprite.Group()
 enemy1_group = pygame.sprite.Group()
 enemy2_group = pygame.sprite.Group()
-boss1_group = pygame.sprite.Group()
-boss2_group = pygame.sprite.Group()
-boss3_group = pygame.sprite.Group()
-bullet_refill_group = pygame.sprite.Group()
-health_refill_group = pygame.sprite.Group()
-double_refill_group = pygame.sprite.Group()
-meteor_group = pygame.sprite.Group()
-meteor2_group = pygame.sprite.Group()
-extra_score_group = pygame.sprite.Group()
-black_hole_group = pygame.sprite.Group()
+
 enemy2_bullets = pygame.sprite.Group()
 
-boss1_bullets = pygame.sprite.Group()
-boss2_bullets = pygame.sprite.Group()
-boss3_bullets = pygame.sprite.Group()
 
-boss1_health = 150
-boss1_health_bar_rect = pygame.Rect(0, 0, 150, 5)
-boss1_spawned = False
 
-boss2_health = 150
-boss2_health_bar_rect = pygame.Rect(0, 0, 150, 5)
-boss2_spawned = False
-
-boss3_health = 200
-boss3_health_bar_rect = pygame.Rect(0, 0, 200, 5)
-boss3_spawned = False
 
 bg_y_shift = -HEIGHT
 background_img = pygame.image.load('images/bg/background.jpg').convert()
@@ -173,18 +150,7 @@ while running:
                 elif event.key == pygame.K_DOWN:
                     player.stop_down()
 
-        elif event.type == pygame.JOYBUTTONDOWN:
-            if event.button == 0 and not paused:
-                is_shooting = True
-                if bullet_counter > 0:
-                    bullet = Bullet(player.rect.centerx, player.rect.top)
-                    bullets.add(bullet)
-                    bullet_counter -= 1
-            elif event.button == 7:
-                paused = not paused
-        elif event.type == pygame.JOYBUTTONUP:
-            if event.button == 0 and player.original_image is not None:
-                is_shooting = False
+       
 
     if pygame.time.get_ticks() - last_shot_time > SHOOT_DELAY and is_shooting and not paused:
         if bullet_counter > 0:
@@ -245,95 +211,7 @@ while running:
     background_top_rect.top = bg_y_shift + HEIGHT
     screen.blit(background_top, background_top_rect)
 
-    if score > hi_score:
-        hi_score = score
-
-    if random.randint(0, 120) == 0:
-        enemy_img = random.choice(enemy1_img)
-        enemy_object = Enemy1(
-            random.randint(100, WIDTH - 50),
-            random.randint(-HEIGHT, -50),
-            enemy_img,
-        )
-        enemy1_group.add(enemy_object)
-
-    if score >= 3000 and random.randint(0, 40) == 0 and len(enemy2_group) < 2:
-        enemy_img = random.choice(enemy2_img)
-        enemy2_object = Enemy2(
-            random.randint(200, WIDTH - 100),
-            random.randint(-HEIGHT, -100),
-            enemy_img,
-        )
-        enemy2_group.add(enemy2_object)
-
-    if score >= 5000 and not boss1_spawned:
-        pygame.mixer.Sound('game_sounds/warning.mp3').play()
-        boss1_img = boss1_img
-        boss1_object = Boss1(
-            random.randint(200, WIDTH - 100),
-            random.randint(-HEIGHT, -100),
-            boss1_img,
-        )
-        boss1_group.add(boss1_object)
-        boss1_spawned = True
-
-    if score >= 10000 and not boss2_spawned:
-        pygame.mixer.Sound('game_sounds/warning.mp3').play()
-        boss2_img = boss2_img
-        boss2_object = Boss2(
-            random.randint(200, WIDTH - 100),
-            random.randint(-HEIGHT, -100),
-            boss2_img,
-        )
-        boss2_group.add(boss2_object)
-        boss2_spawned = True
-
-    if score >= 15000 and not boss3_spawned:
-        pygame.mixer.Sound('game_sounds/warning.mp3').play()
-        boss3_img = boss3_img
-        boss3_object = Boss3(
-            random.randint(200, WIDTH - 100),
-            random.randint(-HEIGHT, -100),
-            boss3_img,
-        )
-        boss3_group.add(boss3_object)
-        boss3_spawned = True
-
-    if random.randint(0, 60) == 0:
-        extra_score = ExtraScore(
-            random.randint(50, WIDTH - 50),
-            random.randint(-HEIGHT, -50 - extra_score_img.get_rect().height),
-            extra_score_img,
-        )
-
-        extra_score_group.add(extra_score)
-
-    if score > 3000 and random.randint(0, 100) == 0:
-        meteor_img = random.choice(meteor_imgs)
-        meteor_object = Meteors(
-            random.randint(0, 50),
-            random.randint(0, 50),
-            meteor_img,
-        )
-        meteor_group.add(meteor_object)
-
-    if random.randint(0, 90) == 0:
-        meteor2_img = random.choice(meteor2_imgs)
-        meteor2_object = Meteors2(
-            random.randint(100, WIDTH - 50),
-            random.randint(-HEIGHT, -50 - meteor2_img.get_rect().height),
-            meteor2_img,
-        )
-        meteor2_group.add(meteor2_object)
-
-    if score > 1000 and random.randint(0, 500) == 0:
-        black_hole_img = random.choice(black_hole_imgs)
-        black_hole_object = BlackHole(
-            random.randint(100, WIDTH - 50),
-            random.randint(-HEIGHT, -50 - black_hole_img.get_rect().height),
-            black_hole_img,
-        )
-        black_hole_group.add(black_hole_object)
+    
 
     if player_life <= 0:
         show_game_over(score)
@@ -348,20 +226,10 @@ while running:
         bullet_counter = 200
         player.rect.topleft = initial_player_pos
         bullets.empty()
-        bullet_refill_group.empty()
-        health_refill_group.empty()
-        double_refill_group.empty()
-        extra_score_group.empty()
-        black_hole_group.empty()
-        meteor_group.empty()
-        meteor2_group.empty()
+        
         enemy1_group.empty()
         enemy2_group.empty()
-        boss1_group.empty()
-        boss2_group.empty()
-        boss3_group.empty()
-        explosions.empty()
-        explosions2.empty()
+        
 
     for black_hole_object in black_hole_group:
         black_hole_object.update()
