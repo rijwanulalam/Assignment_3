@@ -37,7 +37,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="D:\Australia\sem2\SOFTWARE NOW\Assignment 3\cosmic-heat-pygame-main\cosmic-heat-pygame-main\env"
+VIRTUAL_ENV="D:\Australia\sem2\SOFTWARE NOW\Assignment 3\space-craft-main\space-craft-main\env"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

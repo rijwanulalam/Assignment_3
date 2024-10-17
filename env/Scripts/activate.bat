@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=D:\Australia\sem2\SOFTWARE NOW\Assignment 3\cosmic-heat-pygame-main\cosmic-heat-pygame-main\env
+set VIRTUAL_ENV=D:\Australia\sem2\SOFTWARE NOW\Assignment 3\space-craft-main\space-craft-main\env
 
 if not defined PROMPT set PROMPT=$P$G
 

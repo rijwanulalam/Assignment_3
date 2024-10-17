@@ -21,7 +21,7 @@ pygame.init()
 music_background()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 surface = pygame.Surface((WIDTH, HEIGHT))
-pygame.display.set_caption("Space Craft")
+pygame.display.set_caption("Space craft")
 clock = pygame.time.Clock()
 
 
@@ -112,7 +112,7 @@ score = 0
 hi_score = 0
 player = Player()
 player_life = 200
-bullet_counter = 1000
+bullet_counter = 200
 
 paused = False
 running = True
